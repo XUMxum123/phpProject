@@ -87,3 +87,9 @@ return [
 **NOTE:** Yii won't create the database for you, this has to be done manually before you can access it.
 
 Also check and edit the other files in the `config/` directory to customize your application.
+
+=====================================================
+第1种办法：将代码中的<? ?>全部替换成<?php ?> 。
+
+第2种办法：打开 php.ini ，找到 short_open_tag = Off 这一行，将 Off 修改为 On，保存退出并重启 Apache 即可解决
+
