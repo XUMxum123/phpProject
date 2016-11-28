@@ -18,7 +18,14 @@ use yii\widgets\ActiveForm;
     <?=Html::jsFile('@web/assets/js/config-min.js')?>
     <script>
         $(function(){
-        	var url = "http://localhost/yiitwo/web"; // xum
+        	//var url = "http://localhost/yiitwo/web"; // xum
+        	//var url = "http://localhost/phpProject/yiitwo/web";
+        	//alert("<?php //echo Yii::$app->request->url ?>");
+        	//alert("<?php //echo Yii::$app->request->getPathInfo()?>");
+        	//alert("<?php //echo  Yii::$app->homeUrl?>");
+        	//alert("<?php //echo Yii::$app->user->returnUrl;?>");
+        	var url = "http://localhost" + "<?php echo Yii::$app->homeUrl?>";
+        	//alert(url);
             ajaxPull();
             //轮询，实时更新消息数,10秒更新一次
              function ajaxPull(){

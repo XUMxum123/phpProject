@@ -97,7 +97,9 @@ use yii\widgets\ActiveForm;
 
     <script charset="utf-8">
         //var url="http://"+window.location.host;
-        var url = "http://localhost/yiitwo/web"; // xum
+        //var url = "http://localhost/phpProject/yiitwo/web"; // xum
+        //var url = "<?php //echo Yii::$app->basePath; ?>";
+        var url = "http://localhost" + "<?php echo Yii::$app->homeUrl?>";
         var g_oJCrop = null;
         //异步上传文件
         new AjaxUpload("#upload", {
@@ -112,7 +114,7 @@ use yii\widgets\ActiveForm;
                 $(".info").html("<div style='color:#008000;margin:5px;'>上传中...</div>");
             },
             onComplete: function(file, response) {
-            	alert(response);
+                //alert(response);
                 if(g_oJCrop!=null){g_oJCrop.destroy();}
                 //生成元素
                 $(".pic-display").html("<div class='thum'><img id='target' src='" +"<?php echo Yii::getAlias("@web") ?>"+ response+"'/></div>"); // xum
@@ -181,6 +183,7 @@ use yii\widgets\ActiveForm;
         //表单异步提交后台裁剪
 
         $("input[name=btn]").click( function(){
+        	//alert("<?php echo Yii::$app->basePath; ?>");
             var w=parseInt($("#w").val());
             if(!w){
                 w=0;

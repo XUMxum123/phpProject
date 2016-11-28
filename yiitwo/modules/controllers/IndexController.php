@@ -209,8 +209,22 @@ class IndexController extends Controller{
             $tempFile = $_FILES['myfile']['tmp_name'];
 
             //允许的文件后缀
-            $fileTypes = array('jpg','jpeg','gif','png');  // 有问题  // xum
-
+            $fileTypes = array('image/gif','image/jpeg','image/pjpeg',
+            		           'image/png','image/x-png','image/bmp');  // 有问题  // xum
+             
+            // xum 
+            // 上传图片时，IE6、7、8会把 jpg、jpeg翻译成image/pjpeg，png翻译成image/x-png 
+            // 而火狐、谷歌等则很标准：jpg、jpeg翻译成image/jpeg，png翻译成image/png
+/*             if(($_FILES["myfile"]["type"] == "image/gif")
+            	||($_FILES["myfile"]["type"] == "image/jpeg")	
+            	||($_FILES["myfile"]["type"] == "image/pjpeg")
+            	||($_FILES["myfile"]["type"] == "image/png")
+            	||($_FILES["myfile"]["type"] == "image/x-png")
+            	||($_FILES["myfile"]["type"] == "image/bmp")
+            		) */
+            if(in_array($_FILES["myfile"]["type"], $fileTypes))
+            {
+         
             //得到文件原名      
             /*  @author xum
              *  string iconv ( string $in_charset , string $out_charset , string $str ) 
@@ -222,8 +236,6 @@ class IndexController extends Controller{
             $fileName = iconv("UTF-8","GB2312",$_FILES["myfile"]["name"]); 
             //$fileName = iconv("UTF-8", "UTF-8", $_FILES["myfile"]["name"]);
             $fileParts = pathinfo($_FILES['myfile']['name']);
-
-
 
             //最后保存服务器地址
             if(!is_dir($path)){
@@ -242,6 +254,9 @@ class IndexController extends Controller{
             }
             //$info = iconv("GB2312", "UTF-8", $info);
             echo iconv("GB2312", "UTF-8", $info);  // xum
+          }else{
+          	die("不支持的上传图像类型!");
+          }
         }
 
     }
@@ -258,8 +273,26 @@ class IndexController extends Controller{
             $src =Yii::$app->request->post('f');
             $src=Yii::$app->basePath.'/web'.$src;//真实的图片路径
 
-            $img_r = imagecreatefromjpeg($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
-            $ext=$path.time().".jpg";//生成的引用路径
+            $suffix = stristr($src,".");
+            if($suffix == ".jpg"){
+            	$img_r = imagecreatefromjpeg($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            	$ext=$path.time().".jpg";//生成的引用路径
+            }elseif ($suffix == ".jpeg"){
+            	$img_r = imagecreatefromjpeg($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            	$ext=$path.time().".jpeg";//生成的引用路径
+            }elseif ($suffix == ".gif"){
+            	$img_r = imagecreatefromgif($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            	$ext=$path.time().".gif";//生成的引用路径
+            }elseif ($suffix == ".png"){
+            	$img_r = imagecreatefrompng($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            	$ext=$path.time().".png";//生成的引用路径
+            }elseif ($suffix == ".bmp"){
+            	$img_r = imagecreatefromwbmp($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            	$ext=$path.time().".bmp";//生成的引用路径
+            }
+            
+            //$img_r = imagecreatefromjpeg($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            //$ext=$path.time().".jpg";//生成的引用路径
             $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
 
             imagecopyresampled($dst_r,$img_r,0,0,Yii::$app->request->post('x'),Yii::$app->request->post('y'),
