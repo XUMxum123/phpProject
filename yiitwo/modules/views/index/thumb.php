@@ -74,9 +74,9 @@ use yii\widgets\ActiveForm;
 
                 <div class="text">
                     <?php if($user->thumb):?>
-                    <img class="img-circle tx" src="<?=$user->thumb ?>" alt=""/>
+                    <img class="img-circle tx" src="<?php echo Yii::getAlias('@web') ?><?=$user->thumb ?>" alt=""/> <!-- xum -->
                         <?php else:?>
-                        <img class="img-circle tx" src="/avatar/photo.jpg" alt=""/>
+                        <img class="img-circle tx" src="<?php echo Yii::getAlias('@web') ?>/avatar/photo.jpg" alt=""/> <!-- xum -->
                     <?php endif ?>
                 </div>
 
@@ -95,8 +95,9 @@ use yii\widgets\ActiveForm;
             </div>
     </div>
 
-    <script>
-        var url="http://"+window.location.host;
+    <script charset="utf-8">
+        //var url="http://"+window.location.host;
+        var url = "http://localhost/yiitwo/web"; // xum
         var g_oJCrop = null;
         //异步上传文件
         new AjaxUpload("#upload", {
@@ -111,11 +112,11 @@ use yii\widgets\ActiveForm;
                 $(".info").html("<div style='color:#008000;margin:5px;'>上传中...</div>");
             },
             onComplete: function(file, response) {
-
+            	alert(response);
                 if(g_oJCrop!=null){g_oJCrop.destroy();}
                 //生成元素
-                $(".pic-display").html("<div class='thum'><img id='target' src='"+response+"'/></div>");
-
+                $(".pic-display").html("<div class='thum'><img id='target' src='" +"<?php echo Yii::getAlias("@web") ?>"+ response+"'/></div>"); // xum
+                
                 //初始化裁剪区
                 $('#target').Jcrop({
                     onChange: updatePreview,
@@ -145,7 +146,7 @@ use yii\widgets\ActiveForm;
                     g_oJCrop.setSelect([x1,y1,x2,y2]);
 
                     //顺便插入略缩图
-                    $(".jcrop-holder").append("<div id='preview-pane'><div class='preview-container'><img  class='jcrop-preview' src='"+response+"' /></div></div>");
+                    $(".jcrop-holder").append("<div id='preview-pane'><div class='preview-container'><img  class='jcrop-preview' src='"+"<?php echo Yii::getAlias("@web") ?>"+ response+"' /></div></div>");
 
                 });
                 //传递参数上传
@@ -189,8 +190,8 @@ use yii\widgets\ActiveForm;
                     if(data.status==1){
                         $(".pic-display").remove();
                         $(".info").html("<div style='color:#008000;margin:10px 5px;'>裁剪成功!</div>")
-                        $(".text-info").html("<img src='"+data.data+"'>");
-                        $(".tx").attr('src',data.data);
+                        $(".text-info").html("<img src='"+"<?php echo Yii::getAlias("@web") ?>"+data.data+"'>"); // xum
+                        $(".tx").attr('src',"<?php echo Yii::getAlias("@web") ?>"+data.data);
                         $("input[name=btn]").hide();
                     }
 

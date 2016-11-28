@@ -57,8 +57,8 @@ use yii\widgets\ActiveForm;
         <div class="row">
             <?php if(count($users)>0):?>
                 <?php foreach ($users as $v): ?>
-                    <div class="col-md-2 col-sm-1 col-xs-3">
-                        <img title="<?=$v->user?>" class="img-circle tx" src="<?php if($v->thumb):?><?=$v->thumb?><?else:?>/avatar/photo.jpg<?endif?>" alt=""/>
+                    <div class="col-md-2 col-sm-1 col-xs-3"><!-- xum -->
+                        <img title="<?=$v->user?>" class="img-circle tx" src="<?php echo Yii::getAlias("@web") ?><?php if($v->thumb):?><?=$v->thumb?><?else:?>/avatar/photo.jpg<?endif?>" alt=""/>
                         <p class="text-info nickname"><?=$v->nickname?></p>
                         <p><a href="<?=Yii::$app->urlManager->createUrl(['admin/index/follow','id'=>$v->id])?>" class="btn btn-primary btn-sm btn-success">添加关注</a></p>
                     </div>
@@ -72,8 +72,8 @@ use yii\widgets\ActiveForm;
         <div class="row">
             <?php if(count($fensi)>0):?>
                 <?php foreach ($fensi as $v): ?>
-                    <div class="col-md-2 col-sm-1 col-xs-3">
-                        <img title="<?=$v->user?>" class="img-circle tx" src="<?php if($v->thumb):?><?=$v->thumb?><?else:?>/avatar/photo.jpg<?endif?>" alt=""/>
+                    <div class="col-md-2 col-sm-1 col-xs-3"><!-- xum -->
+                        <img title="<?=$v->user?>" class="img-circle tx" src="<?php echo Yii::getAlias("@web") ?><?php if($v->thumb):?><?=$v->thumb?><?else:?>/avatar/photo.jpg<?endif?>" alt=""/>
 
 
                             <?php if(in_array($v->id,$cids )):?>
@@ -96,8 +96,8 @@ use yii\widgets\ActiveForm;
         <div class="row">
             <?php if(count($cares)>0):?>
                 <?php foreach ($cares as $v): ?>
-                    <div class="col-md-2 col-sm-1 col-xs-3">
-                        <img title="<?=$v->user?>" class="img-circle tx" src="<?php if($v->thumb):?><?=$v->thumb?><?else:?>/avatar/photo.jpg<?endif?>" alt=""/>
+                    <div class="col-md-2 col-sm-1 col-xs-3"><!-- xum -->
+                        <img title="<?=$v->user?>" class="img-circle tx" src="<?php echo Yii::getAlias("@web") ?><?php if($v->thumb):?><?=$v->thumb?><?else:?>/avatar/photo.jpg<?endif?>" alt=""/>
                         <p class="text-info nickname"><?=$v->nickname?></p>
                         <p><a href="<?=Yii::$app->urlManager->createUrl(['admin/index/nofollow','id'=>$v->id])?>" class="btn btn-primary btn-sm btn-danger">取消关注</a></p>
                     </div>

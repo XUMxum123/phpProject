@@ -18,6 +18,7 @@ use yii\widgets\ActiveForm;
     <?=Html::jsFile('@web/assets/js/config-min.js')?>
     <script>
         $(function(){
+        	var url = "http://localhost/yiitwo/web"; // xum
             ajaxPull();
             //轮询，实时更新消息数,10秒更新一次
              function ajaxPull(){
@@ -28,7 +29,7 @@ use yii\widgets\ActiveForm;
              function updateMsg(){
                 var msgnum=parseInt($("#msgnum").text());
                 //异步操作，发送请求，对比消息数变更
-                 $.get('/admin/msg/pull',{msgnum:msgnum},function(data){
+                 $.get(url+'/admin/msg/pull',{msgnum:msgnum},function(data){
                      if(data.status==1){
                          //更新消息提示
                          $("#msgnum").text(data.msgnum);

@@ -209,10 +209,18 @@ class IndexController extends Controller{
             $tempFile = $_FILES['myfile']['tmp_name'];
 
             //允许的文件后缀
-            $fileTypes = array('jpg','jpeg','gif','png');
+            $fileTypes = array('jpg','jpeg','gif','png');  // 有问题  // xum
 
-            //得到文件原名
-            $fileName = iconv("UTF-8","GB2312",$_FILES["myfile"]["name"]);
+            //得到文件原名      
+            /*  @author xum
+             *  string iconv ( string $in_charset , string $out_charset , string $str ) 
+             *  将字符串 str 从 in_charset 转换编码到 out_charset
+             *  
+             *  [iconv] note:上传中文名的文件会出现乱码,如图片名是中文的，可能会导致显示图片出问题
+             *  可以参考网址看看  http://php.net/manual/zh/function.iconv.php
+             */
+            $fileName = iconv("UTF-8","GB2312",$_FILES["myfile"]["name"]); 
+            //$fileName = iconv("UTF-8", "UTF-8", $_FILES["myfile"]["name"]);
             $fileParts = pathinfo($_FILES['myfile']['name']);
 
 
@@ -223,6 +231,7 @@ class IndexController extends Controller{
             }
 
             if (move_uploaded_file($tempFile, $path.$fileName)){
+            	//$fileName = iconv("GB2312", "UTF-8", $fileName); // xum
                 $info= $tmpath.$fileName;
                 $status=1;
                 $data=array('path'=>Yii::$app->basePath,'file'=> $path.$fileName);
@@ -231,7 +240,8 @@ class IndexController extends Controller{
                 $status=0;
                 $data='';
             }
-            echo $info;
+            //$info = iconv("GB2312", "UTF-8", $info);
+            echo iconv("GB2312", "UTF-8", $info);  // xum
         }
 
     }
@@ -248,7 +258,7 @@ class IndexController extends Controller{
             $src =Yii::$app->request->post('f');
             $src=Yii::$app->basePath.'/web'.$src;//真实的图片路径
 
-            $img_r = imagecreatefromjpeg($src);
+            $img_r = imagecreatefromjpeg($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
             $ext=$path.time().".jpg";//生成的引用路径
             $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
 
