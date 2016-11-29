@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
         	//alert("<?php //echo Yii::$app->request->getPathInfo()?>");
         	//alert("<?php //echo  Yii::$app->homeUrl?>");
         	//alert("<?php //echo Yii::$app->user->returnUrl;?>");
-        	var url = "http://localhost" + "<?php echo Yii::$app->homeUrl?>";
+        	var url = "http://localhost" + "<?php echo rtrim(Yii::$app->homeUrl,'/')?>";
         	//alert(url);
             ajaxPull();
             //轮询，实时更新消息数,10秒更新一次

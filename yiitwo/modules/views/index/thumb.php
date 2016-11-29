@@ -86,8 +86,9 @@ use yii\widgets\ActiveForm;
                         <input type="hidden" id="w" name="w" />
                         <input type="hidden" id="h" name="h" />
                         <input type="hidden" id="f" name="f" />
-                        <input id='upload' name="file_upload" type="button" value='上传' class='btn btn-large btn-primary'>
-                        <input type="button" name="btn" value="确认裁剪" class="btn" />
+                        <input id='upload' name="file_upload" type="button" value='上传' class='btn btn-large btn-primary'>                      
+                        <input type="button" name="btn" value="确认裁剪" class="btn" /><br />                       
+                        <span id="tip">注意:只能上传jpg,jpeg,png格式的非中文名字图片</span>
                     </form>
                     <div class="info"></div>
                     <div class="pic-display"></div><div class="text-info"></div>
@@ -99,7 +100,7 @@ use yii\widgets\ActiveForm;
         //var url="http://"+window.location.host;
         //var url = "http://localhost/phpProject/yiitwo/web"; // xum
         //var url = "<?php //echo Yii::$app->basePath; ?>";
-        var url = "http://localhost" + "<?php echo Yii::$app->homeUrl?>";
+        var url = "http://localhost" + "<?php echo rtrim(Yii::$app->homeUrl,'/')?>";
         var g_oJCrop = null;
         //异步上传文件
         new AjaxUpload("#upload", {
@@ -115,49 +116,57 @@ use yii\widgets\ActiveForm;
             },
             onComplete: function(file, response) {
                 //alert(response);
-                if(g_oJCrop!=null){g_oJCrop.destroy();}
-                //生成元素
-                $(".pic-display").html("<div class='thum'><img id='target' src='" +"<?php echo Yii::getAlias("@web") ?>"+ response+"'/></div>"); // xum
-                
-                //初始化裁剪区
-                $('#target').Jcrop({
-                    onChange: updatePreview,
-                    onSelect: updatePreview,
-                    aspectRatio: 1
-                },function(){
-                    g_oJCrop = this;
+               if(response.match(/[\u4e00-\u9fa5]/g)!=null){  // xum
+                  //alert("不能有中文名字");
+            	   $("span#tip").html("<label style='color: #f00;'>上传的文件名含有中文,请重新上传!</label>");
+            	   $(".info").html("<label style='color: #f00;'>上传的文件名:</label>" + " " + response.split("/")[2]);
+               }else{
+            	   $("span#tip").hide();
+                   if(g_oJCrop!=null){g_oJCrop.destroy();}
+                   //生成元素
+                   $(".pic-display").html("<div class='thum'><img id='target' src='" +"<?php echo Yii::getAlias("@web") ?>"+ response+"'/></div>"); // xum
+                   
+                   //初始化裁剪区
+                   $('#target').Jcrop({
+                       onChange: updatePreview,
+                       onSelect: updatePreview,
+                       aspectRatio: 1
+                   },function(){
+                       g_oJCrop = this;
 
-                    var bounds = g_oJCrop.getBounds();
-                    var x1,y1,x2,y2;
-                    if(bounds[0]/bounds[1] > 150/150)
-                    {
-                        y1 = 0;
-                        y2 = bounds[1];
+                       var bounds = g_oJCrop.getBounds();
+                       var x1,y1,x2,y2;
+                       if(bounds[0]/bounds[1] > 150/150)
+                       {
+                           y1 = 0;
+                           y2 = bounds[1];
 
-                        x1 = (bounds[0] - 150 * bounds[1]/150)/2;
-                        x2 = bounds[0]-x1;
-                    }
-                    else
-                    {
-                        x1 = 0;
-                        x2 = bounds[0];
+                           x1 = (bounds[0] - 150 * bounds[1]/150)/2;
+                           x2 = bounds[0]-x1;
+                       }
+                       else
+                       {
+                           x1 = 0;
+                           x2 = bounds[0];
 
-                        y1 = (bounds[1] - 150 * bounds[0]/150)/2;
-                        y2 = bounds[1]-y1;
-                    }
-                    g_oJCrop.setSelect([x1,y1,x2,y2]);
+                           y1 = (bounds[1] - 150 * bounds[0]/150)/2;
+                           y2 = bounds[1]-y1;
+                       }
+                       g_oJCrop.setSelect([x1,y1,x2,y2]);
 
-                    //顺便插入略缩图
-                    $(".jcrop-holder").append("<div id='preview-pane'><div class='preview-container'><img  class='jcrop-preview' src='"+"<?php echo Yii::getAlias("@web") ?>"+ response+"' /></div></div>");
+                       //顺便插入略缩图
+                       $(".jcrop-holder").append("<div id='preview-pane'><div class='preview-container'><img  class='jcrop-preview' src='"+"<?php echo Yii::getAlias("@web") ?>"+ response+"' /></div></div>");
 
-                });
-                //传递参数上传
-                $("#f").val(response);
+                   });
+                   //传递参数上传
+                   $("#f").val(response);
 
-                //更新提示信息
-                $(".info").html("<div style='color:#008000;margin:5px;'>准备裁剪。。。</div>");
+                   //更新提示信息
+                   $(".info").html("<div style='color:#008000;margin:5px;'>准备裁剪。。。</div>");
 
-            }
+               }                    
+                   }
+
         });
 
         //更新裁剪图片信息
@@ -183,19 +192,27 @@ use yii\widgets\ActiveForm;
         //表单异步提交后台裁剪
 
         $("input[name=btn]").click( function(){
-        	//alert("<?php echo Yii::$app->basePath; ?>");
+        	//alert("<?php //echo Yii::$app->basePath; ?>");
             var w=parseInt($("#w").val());
             if(!w){
                 w=0;
             }
+            //alert($("input[name=f]").val());
             if(w>0){
                 $.post(url+'/admin/index/cutpic',{'x':$("input[name=x]").val(),'y':$("input[name=y]").val(),'w':$("input[name=w]").val(),'h':$("input[name=h]").val(),'f':$("input[name=f]").val()},function(data){
+                    //alert("123");
                     if(data.status==1){
+                    	$("span#tip").show();
+                    	$("span#tip").html("注意:只能上传jpg,jpeg,png格式的非中文名字图片");
                         $(".pic-display").remove();
                         $(".info").html("<div style='color:#008000;margin:10px 5px;'>裁剪成功!</div>")
                         $(".text-info").html("<img src='"+"<?php echo Yii::getAlias("@web") ?>"+data.data+"'>"); // xum
-                        $(".tx").attr('src',"<?php echo Yii::getAlias("@web") ?>"+data.data);
+                        $(".tx").attr('src',"<?php echo Yii::getAlias("@web") ?>"+data.data);  
+                        //$(".txt-info").hide();
+                        //$(".info").hide();  
+                        //$(".pic-display").hide();                    
                         $("input[name=btn]").hide();
+                        window.location.reload();  // 这个方法是不是有什么不妥？后续可能会改动!  xum
                     }
 
                 },'json');

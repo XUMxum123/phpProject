@@ -210,7 +210,7 @@ class IndexController extends Controller{
 
             //允许的文件后缀
             $fileTypes = array('image/gif','image/jpeg','image/pjpeg',
-            		           'image/png','image/x-png','image/bmp');  // 有问题  // xum
+            		           'image/png','image/x-png','image/wbmp');  // 有问题  // xum
              
             // xum 
             // 上传图片时，IE6、7、8会把 jpg、jpeg翻译成image/pjpeg，png翻译成image/x-png 
@@ -255,7 +255,7 @@ class IndexController extends Controller{
             //$info = iconv("GB2312", "UTF-8", $info);
             echo iconv("GB2312", "UTF-8", $info);  // xum
           }else{
-          	die("不支持的上传图像类型!");
+          	die("不支持的图像格式!");
           }
         }
 
@@ -266,6 +266,7 @@ class IndexController extends Controller{
      */
 
     public function actionCutpic(){
+    	header("Content-type: text/html; charset=utf-8");
         if(Yii::$app->request->isAjax){
             $path="/avatar/";
             $targ_w = $targ_h = 150;
@@ -273,22 +274,27 @@ class IndexController extends Controller{
             $src =Yii::$app->request->post('f');
             $src=Yii::$app->basePath.'/web'.$src;//真实的图片路径
 
-            $suffix = stristr($src,".");
+            /* xum
+             * 为什么不能上传中文名字的图片,因为imagecreatefromjpeg、imagecreatefromgif、imagecreatefrompng、imagecreatefromwbmp打不开中文名字的图片
+             * 后续怎么改进？怎么才能上传中文名字的图片
+            */
+            $suffix = stristr($src,".");  // root problem
+            //$src = iconv("UTF-8", "UTF-8", $src);
             if($suffix == ".jpg"){
-            	$img_r = imagecreatefromjpeg($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            	$img_r = imagecreatefromjpeg($src); 
             	$ext=$path.time().".jpg";//生成的引用路径
-            }elseif ($suffix == ".jpeg"){
-            	$img_r = imagecreatefromjpeg($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            } else if ($suffix == ".jpeg"){
+            	$img_r = imagecreatefromjpeg($src); 
             	$ext=$path.time().".jpeg";//生成的引用路径
-            }elseif ($suffix == ".gif"){
-            	$img_r = imagecreatefromgif($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            } else if ($suffix == ".gif"){
+            	$img_r = imagecreatefromgif($src); 
             	$ext=$path.time().".gif";//生成的引用路径
-            }elseif ($suffix == ".png"){
-            	$img_r = imagecreatefrompng($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
+            }else if ($suffix == ".png"){
+            	$img_r = imagecreatefrompng($src); 
             	$ext=$path.time().".png";//生成的引用路径
-            }elseif ($suffix == ".bmp"){
-            	$img_r = imagecreatefromwbmp($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
-            	$ext=$path.time().".bmp";//生成的引用路径
+            }elseif ($suffix == ".wbmp"){
+            	$img_r = imagecreatefromwbmp($src); 
+            	$ext=$path.time().".wbmp";//生成的引用路径
             }
             
             //$img_r = imagecreatefromjpeg($src); // 为什么只能上传jpg格式图片的肯本原因所在  // xum
@@ -300,7 +306,11 @@ class IndexController extends Controller{
 
             $img=Yii::$app->basePath.'/web/'.$ext;//真实的图片路径
 
-            if(imagejpeg($dst_r,$img,$jpeg_quality)){
+            if(imagejpeg($dst_r,$img,$jpeg_quality) 
+               ||imagegif($dst_r,$img)
+               ||imagepng($dst_r,$img)
+               ||imagewbmp($dst_r,$img)
+            		){
                 //更新用户头像
                 $user=YiiUser::findOne(Yii::$app->user->getId());
                 $user->thumb=$ext;
@@ -313,7 +323,7 @@ class IndexController extends Controller{
             }else{
                 $arr['status']=0;
                 echo json_encode($arr);
-            }
+            }           
             exit;
         }
     }
