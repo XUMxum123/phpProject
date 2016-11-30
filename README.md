@@ -11,6 +11,7 @@ I was to learning only, source code maybe changed during the learn period,
 	git@github.com:shi-yang/iisns.git
 	git@github.com:yiifans/yiiforum.git
 	http://www.yiichina.com/code/344
+	git@github.com:forecho/awesome-yii2.git
 ------------------- 
 ###Thanks for you coming! Best wishes for you!
 ### xum
