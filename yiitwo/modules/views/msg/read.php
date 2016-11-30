@@ -88,6 +88,7 @@ use yii\bootstrap\Alert;
 </div>
 
 <script>
+    var url = "http://localhost" + "<?php echo rtrim(Yii::$app->homeUrl,'/')?>";  // xum
     //点击回复，展开收起回复框
     $("#reply").click(function(){
         $(".reply_form").show();
@@ -102,7 +103,7 @@ use yii\bootstrap\Alert;
                     $(".info").html("<div class='alert alert-danger'>回复内容不得为空！</div>");
                     return false;
                 }
-                $.post('/admin/msg/reply',$("form[name=form]").serialize(),function(data){
+                $.post(url+'/admin/msg/reply',$("form[name=form]").serialize(),function(data){
                     if(data.status==1){
 
                         $(".info").html("<div class='alert alert-success'>回复成功！</div>");
