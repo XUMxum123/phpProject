@@ -13,7 +13,7 @@ nbproject
 Thumbs.db
 
 # composer vendor dir
-/vendor
+#/vendor
 
 # composer lock file
 composer.lock
@@ -30,7 +30,7 @@ phpunit.phar
 /phpunit.xml
 
 # database config
-/config/db.php
+#/config/db.php
 
 # install lock file
 install.lock
