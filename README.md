@@ -13,8 +13,7 @@ I was to learning only, source code maybe changed during the learn period,
 	http://www.yiichina.com/code/344
 	git@github.com:forecho/awesome-yii2.git
 	git@github.com:githubjeka/angular-yii2.git
-        git@github.com:phpyii/yii2-widget-linkpager.git
-        git@github.com:mojifan/MoBlog.git
+    git@github.com:mojifan/MoBlog.git
 ------------------- 
 ###Thanks for you coming! Best wishes for you!
 ### xum
