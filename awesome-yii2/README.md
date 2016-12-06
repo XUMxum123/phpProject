@@ -26,10 +26,10 @@ Yii2 干货集，欢迎点 Watch 订阅，也欢迎提交 Pull Requests。（提
 
 - [GetYii](https://github.com/iiyii/getyii)：论坛
 - [dotplant2](https://github.com/DevGroup-ru/dotplant2)：来自俄罗斯的电子商务CMS
-- [yincart2](https://github.com/yincart2/galaxy)：电商星系系统，提供零售、批发、特卖、垂直电商、分销、O2O、C2C、移动电商、微信电商、社交电商、P2P、众筹等电商解决方案，根据需要选择不同的模块组合
-- [yii2-shop](https://github.com/samdark/yii2-shop)：使用Yii 2.0实现简单商店的示例项目
-- [funshop](https://github.com/funson86/funshop)：一个灵活的商城。
-- [huajuan](https://github.com/callmez/huajuan)：Yii2 实现的问答,微信,文章系统 Demo
+- X [yincart2](https://github.com/yincart2/galaxy)：电商星系系统，提供零售、批发、特卖、垂直电商、分销、O2O、C2C、移动电商、微信电商、社交电商、P2P、众筹等电商解决方案，根据需要选择不同的模块组合
+- X [yii2-shop](https://github.com/samdark/yii2-shop)：使用Yii 2.0实现简单商店的示例项目
+- X [funshop](https://github.com/funson86/funshop)：一个灵活的商城。
+- X [huajuan](https://github.com/callmez/huajuan)：Yii2 实现的问答,微信,文章系统 Demo
 - [dcms2](https://github.com/djfly/dcms2)：yii2编写的cms
 - [MoBlog](https://github.com/mojifan/MoBlog)：一个基于Yii2的博客系统
 - [EasyiiCMS](https://github.com/noumo/easyii)：基于 Yii2 的 CMS 系统
@@ -39,10 +39,10 @@ Yii2 干货集，欢迎点 Watch 订阅，也欢迎提交 Pull Requests。（提
 - [lulucms2](https://github.com/yiifans/lulucms2) ：LuLu CMS2，模块化开发，集成强大的权限管理功能，非常适合二次开发
 - [hassiumsoft/hasscms-app](https://github.com/hassiumsoft/hasscms-app)：基于 Yii2 开发的 一个现代的、轻量级的、可扩展的PHP CMS 系统。
 - [yiisoft-contrib/yiiframework.com](https://github.com/yiisoft-contrib/yiiframework.com)：新版官网首页正在开发中
-- [githubjeka/angular-yii2](https://github.com/githubjeka/angular-yii2)：yii2 restful + angular 实现前后端分离
+- X [githubjeka/angular-yii2](https://github.com/githubjeka/angular-yii2)：yii2 restful + angular 实现前后端分离
 - [zephir/luya](https://github.com/zephir/luya)：基于Yii2 CMS的编程框架。
 - [humhub](https://github.com/humhub/humhub)：开源社交网络，以前说 Yii 1 现在迁移到 Yii2。
-- [xiaoego.com](https://github.com/daixianceng/xiaoego.com)：xiaoego.com源码，校园O2O购物平台。
+- X [xiaoego.com](https://github.com/daixianceng/xiaoego.com)：xiaoego.com源码，校园O2O购物平台。
 - [YeeCMS](https://github.com/yeesoft/yii2-yee-cms)：基于 Yii2 的 CMS，独到之处是借用 composer 安装卸载模块，你看看他的 [composer.json](https://github.com/yeesoft/yii2-yee-cms/blob/master/composer.json) 文件你就知道了。
 
 
