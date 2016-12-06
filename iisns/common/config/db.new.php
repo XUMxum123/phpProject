@@ -7,7 +7,7 @@ return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=iisns',
     'username' => 'root',
-    'password' => '123456',
+	'password' => '123456',
     'tablePrefix' => 'pre_',
     'enableSchemaCache' => true //No need to modify
 ];
